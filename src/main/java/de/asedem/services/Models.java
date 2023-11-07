@@ -1,8 +1,10 @@
-package de.asedem.model;
+package de.asedem.services;
+
+import de.asedem.model.Model;
 
 import java.util.List;
 
-public record Models(
+record Models(
         List<Model> models
 ) {
 }

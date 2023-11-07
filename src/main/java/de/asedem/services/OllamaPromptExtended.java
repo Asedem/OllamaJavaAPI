@@ -1,4 +1,19 @@
 package de.asedem.services;
 
-public class OllamaPromptExtended {
+import de.asedem.model.OllamaPrompt;
+
+record OllamaPromptExtended(
+        String model,
+        String prompt,
+        boolean stream
+) {
+
+    OllamaPromptExtended(OllamaPrompt prompt) {
+        this(
+                prompt.model(),
+                prompt.prompt(),
+                false
+        );
+    }
 }
+
