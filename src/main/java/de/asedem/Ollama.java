@@ -5,10 +5,7 @@ import de.asedem.model.Model;
 import de.asedem.model.GenerationRequest;
 import de.asedem.model.GenerationResponse;
 import de.asedem.model.ModelInfo;
-import de.asedem.services.CopyService;
-import de.asedem.services.GenerateService;
-import de.asedem.services.ListModelsService;
-import de.asedem.services.ShowInfoService;
+import de.asedem.services.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
@@ -23,7 +20,8 @@ public record Ollama(
         ListModelsService,
         GenerateService,
         ShowInfoService,
-        CopyService {
+        CopyService,
+        DeleteService {
 
     public static Ollama initDefault() {
         return new Ollama("http://127.0.0.1", 11434);
@@ -58,5 +56,10 @@ public record Ollama(
     @Override
     public boolean copy(@NotNull String source, @NotNull String destination) throws OllamaConnectionException {
         return CopyService.super.copy(this, source, destination);
+    }
+
+    @Override
+    public boolean delete(@NotNull String modelName) throws OllamaConnectionException {
+        return DeleteService.super.delete(this, modelName);
     }
 }

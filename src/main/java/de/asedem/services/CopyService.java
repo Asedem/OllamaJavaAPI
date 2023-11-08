@@ -15,7 +15,7 @@ public interface CopyService {
     default boolean copy(@NotNull Ollama ollama, @NotNull String source, @NotNull String destination) throws OllamaConnectionException {
         final int statusCode;
         try {
-            statusCode = Rest.requestSync(ollama.buildUrl("/api/generate"),
+            statusCode = Rest.requestSync(ollama.buildUrl("/api/copy"),
                             HttpMethode.POST, new CopyRequest(source, destination))
                     .getStatusCode();
         } catch (IOException exception) {
