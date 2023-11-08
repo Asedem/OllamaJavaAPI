@@ -1,8 +1,11 @@
 package de.asedem.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record ModelInfo(
         String license,
-        String modelfile,
+        @JsonProperty("modelfile")
+        String modelFile,
         String parameters,
         String template
 ) {

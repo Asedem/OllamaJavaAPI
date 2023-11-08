@@ -1,8 +1,11 @@
 package de.asedem.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record Model(
         String name,
-        String modified_at,
+        @JsonProperty("modified_at")
+        String modifiedAt,
         String digest,
         long size
 ) {
