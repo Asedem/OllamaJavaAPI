@@ -1,4 +1,4 @@
-package de.asedem.services;
+package de.asedem.service;
 
 import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
