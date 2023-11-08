@@ -5,6 +5,7 @@ import de.asedem.model.Model;
 import de.asedem.model.GenerationRequest;
 import de.asedem.model.GenerationResponse;
 import de.asedem.model.ModelInfo;
+import de.asedem.services.CopyService;
 import de.asedem.services.GenerateService;
 import de.asedem.services.ListModelsService;
 import de.asedem.services.ShowInfoService;
@@ -21,7 +22,8 @@ public record Ollama(
 ) implements
         ListModelsService,
         GenerateService,
-        ShowInfoService {
+        ShowInfoService,
+        CopyService {
 
     public static Ollama initDefault() {
         return new Ollama("http://127.0.0.1", 11434);
@@ -51,5 +53,10 @@ public record Ollama(
     @Override
     public ModelInfo showInfo(@NotNull String modelName) throws OllamaConnectionException {
         return ShowInfoService.super.showInfo(this, modelName);
+    }
+
+    @Override
+    public boolean copy(@NotNull String source, @NotNull String destination) throws OllamaConnectionException {
+        return CopyService.super.copy(this, source, destination);
     }
 }
