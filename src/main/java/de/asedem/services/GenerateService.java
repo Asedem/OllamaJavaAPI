@@ -1,27 +1,45 @@
 package de.asedem.services;
 
+import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
-import de.asedem.model.OllamaPrompt;
-import de.asedem.model.PromptResponse;
+import de.asedem.model.GenerationRequest;
+import de.asedem.model.GenerationResponse;
 import de.asedem.rest.HttpMethode;
 import de.asedem.rest.Rest;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.URL;
 
-public class GenerateService {
+public interface GenerateService {
 
     @NotNull
-    public PromptResponse execute(final OllamaPrompt prompt) throws OllamaConnectionException {
-        final PromptResponse response;
+    GenerationResponse generate(@NotNull GenerationRequest prompt) throws OllamaConnectionException;
+
+    @NotNull
+    default GenerationResponse generate(@NotNull Ollama ollama, @NotNull GenerationRequest prompt) throws OllamaConnectionException {
+        final GenerationResponse response;
         try {
-            response = Rest.requestSync(new URL("http://localhost:11434/api/generate"),
-                            HttpMethode.POST, new OllamaPromptExtended(prompt))
-                    .asJavaObject(PromptResponse.class);
+            response = Rest.requestSync(ollama.buildUrl("/api/generate"),
+                            HttpMethode.POST, new StreamGenerationRequest(prompt, false))
+                    .asJavaObject(GenerationResponse.class);
         } catch (IOException exception) {
             throw new OllamaConnectionException(exception);
         }
         return response;
+    }
+
+    record StreamGenerationRequest(
+            String model,
+            String prompt,
+            boolean stream
+    ) {
+
+        StreamGenerationRequest(GenerationRequest prompt, boolean stream) {
+            this(
+                    prompt.model(),
+                    prompt.prompt(),
+                    stream
+            );
+        }
     }
 }

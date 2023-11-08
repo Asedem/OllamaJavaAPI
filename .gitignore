@@ -7,6 +7,9 @@ target/
 .idea/
 OllamaJavaAPI.iml
 
+### Project ###
+src/main/java/de/asedem/Main.java
+
 ### Eclipse ###
 .apt_generated
 .classpath

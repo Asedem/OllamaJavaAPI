@@ -2,26 +2,43 @@ package de.asedem;
 
 import de.asedem.exception.OllamaConnectionException;
 import de.asedem.model.Model;
-import de.asedem.model.OllamaPrompt;
-import de.asedem.model.PromptResponse;
+import de.asedem.model.GenerationRequest;
+import de.asedem.model.GenerationResponse;
 import de.asedem.services.GenerateService;
 import de.asedem.services.ListModelsService;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
-public class Ollama {
+public record Ollama(
+        @NotNull String host,
+        int port
+) implements ListModelsService, GenerateService {
 
-    private static final GenerateService GENERATE_SERVICE = new GenerateService();
-    private static final ListModelsService LIST_MODELS_SERVICE = new ListModelsService();
+    public static Ollama initDefault() {
+        return new Ollama("http://127.0.0.1", 11434);
+    }
 
-    @NotNull
-    public static PromptResponse generate(@NotNull final OllamaPrompt prompt) throws OllamaConnectionException {
-        return GENERATE_SERVICE.execute(prompt);
+    public static Ollama init(@NotNull String host, int port) {
+        return new Ollama(host, port);
+    }
+
+    public URL buildUrl(@NotNull String path) throws MalformedURLException {
+        return URI.create(String.format("%s:%d%s", this.host(), this.port(), path)).toURL();
     }
 
     @NotNull
-    public static List<Model> listModels() throws OllamaConnectionException {
-        return LIST_MODELS_SERVICE.execute();
+    @Override
+    public List<Model> listModels() throws OllamaConnectionException {
+        return ListModelsService.super.listModels(this);
+    }
+
+    @NotNull
+    @Override
+    public GenerationResponse generate(@NotNull GenerationRequest prompt) throws OllamaConnectionException {
+        return GenerateService.super.generate(this, prompt);
     }
 }

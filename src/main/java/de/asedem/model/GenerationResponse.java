@@ -1,6 +1,6 @@
 package de.asedem.model;
 
-public record PromptResponse(
+public record GenerationResponse(
         String model,
         String created_at,
         String response,

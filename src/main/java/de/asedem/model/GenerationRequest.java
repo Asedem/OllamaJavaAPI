@@ -1,6 +1,6 @@
 package de.asedem.model;
 
-public record OllamaPrompt(
+public record GenerationRequest(
         String model,
         String prompt
 ) {
