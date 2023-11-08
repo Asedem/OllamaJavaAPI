@@ -54,6 +54,14 @@ ModelInfo modelInfo = ollama.showInfo("llama2:latest");
 
 *Returns a* `ModelInfo` *object.*
 
+### 2.5 Copy a model
+
+```java
+boolean success = ollama.copy("llama2:latest", "llama2-backup");
+```
+
+*Returns* `true` *if the copy process was successfully.*
+
 ## 3 Credits
 
 Structure of the readme is inspired from [Ollama Sharp](https://github.com/awaescher/OllamaSharp) and [ollama-rs](https://github.com/pepperoni21/ollama-rs).
