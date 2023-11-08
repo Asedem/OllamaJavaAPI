@@ -4,8 +4,10 @@ import de.asedem.exception.OllamaConnectionException;
 import de.asedem.model.Model;
 import de.asedem.model.GenerationRequest;
 import de.asedem.model.GenerationResponse;
+import de.asedem.model.ModelInfo;
 import de.asedem.services.GenerateService;
 import de.asedem.services.ListModelsService;
+import de.asedem.services.ShowInfoService;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
@@ -16,7 +18,10 @@ import java.util.List;
 public record Ollama(
         @NotNull String host,
         int port
-) implements ListModelsService, GenerateService {
+) implements
+        ListModelsService,
+        GenerateService,
+        ShowInfoService {
 
     public static Ollama initDefault() {
         return new Ollama("http://127.0.0.1", 11434);
@@ -40,5 +45,11 @@ public record Ollama(
     @Override
     public GenerationResponse generate(@NotNull GenerationRequest prompt) throws OllamaConnectionException {
         return GenerateService.super.generate(this, prompt);
+    }
+
+    @NotNull
+    @Override
+    public ModelInfo showInfo(@NotNull String modelName) throws OllamaConnectionException {
+        return ShowInfoService.super.showInfo(this, modelName);
     }
 }

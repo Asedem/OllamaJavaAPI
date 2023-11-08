@@ -6,9 +6,4 @@ public record Model(
         String digest,
         long size
 ) {
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

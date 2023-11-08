@@ -19,19 +19,19 @@ This API is by far not finished and many features are missing by now...
 
 ```java
 // By default, it will connect to localhost:11434
-final Ollama ollama = Ollama.initDefault();
+Ollama ollama = Ollama.initDefault();
 
 // For custom values
-final Ollama ollama = Ollama.init("http://localhost", 11434);
+Ollama ollama = Ollama.init("http://localhost", 11434);
 ```
 
 ### 2.2 Completion generation
 
 ```java
-final String model = "llama2:latest";
-final String prompt = "Why is the sky blue?";
+String model = "llama2:latest";
+String prompt = "Why is the sky blue?";
 
-final GenerationResponse response = ollama.generate(new GenerationRequest(model, prompt));
+GenerationResponse response = ollama.generate(new GenerationRequest(model, prompt));
 
 System.out.println(response.response());
 ```
@@ -41,10 +41,18 @@ System.out.println(response.response());
 ### 2.3 List local models
 
 ```java
-final List<Model> models = ollama.listModels();
+List<Model> models = ollama.listModels();
 ```
 
 *Returns a* `List` *of* `Model` *objects.*
+
+### 2.4 Show model information
+
+```java
+ModelInfo modelInfo = ollama.showInfo("llama2:latest");
+```
+
+*Returns a* `ModelInfo` *object.*
 
 ## 3 Credits
 
