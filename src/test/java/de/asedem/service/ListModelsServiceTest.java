@@ -2,8 +2,6 @@ package de.asedem.service;
 
 import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
-import de.asedem.model.GenerationRequest;
-import de.asedem.model.GenerationResponse;
 import de.asedem.model.Model;
 import de.asedem.rest.HttpMethode;
 import de.asedem.rest.Rest;
@@ -15,7 +13,8 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ListModelsServiceTest {
 

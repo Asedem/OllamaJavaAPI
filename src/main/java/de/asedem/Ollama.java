@@ -1,9 +1,8 @@
 package de.asedem;
 
-import de.asedem.exception.OllamaConnectionException;
-import de.asedem.model.Model;
 import de.asedem.model.GenerationRequest;
 import de.asedem.model.GenerationResponse;
+import de.asedem.model.Model;
 import de.asedem.model.ModelInfo;
 import de.asedem.service.*;
 import org.jetbrains.annotations.NotNull;
