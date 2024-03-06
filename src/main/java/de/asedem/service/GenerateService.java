@@ -20,7 +20,7 @@ public interface GenerateService {
         final GenerationResponse response;
         try {
             response = Rest.requestSync(ollama.buildUrl("/api/generate"),
-                            HttpMethode.POST, new StreamGenerationRequest(prompt, false))
+                            HttpMethode.POST, new StreamGenerationRequest(prompt, false), 10000, 30000)
                     .asJavaObject(GenerationResponse.class);
         } catch (IOException exception) {
             throw new OllamaConnectionException(exception);

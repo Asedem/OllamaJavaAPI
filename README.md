@@ -11,7 +11,50 @@ This API is by far not finished and many features are missing by now...
 - Real-time streaming: Stream responses directly to your application. `✗`
 - Progress reporting: Get real-time progress feedback on tasks like model pulling. `✗`
 
-## 2 Usage
+## 2 Installation
+
+### Maven
+
+#### Repository
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+#### Dependency
+
+```xml
+<dependency>
+    <groupId>com.github.Asedem</groupId>
+    <artifactId>OllamaJavaAPI</artifactId>
+    <version>7cac047f12</version>
+</dependency>
+```
+
+### Gradle
+
+#### Repository
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
+#### Dependency
+
+```groovy
+dependencies {
+    implementation 'com.github.Asedem:OllamaJavaAPI:7cac047f12'
+}
+```
+
+## 3 Usage
 
 *These examples use poor error handling for simplicity, but you should handle errors properly in your code.*
 
@@ -70,7 +113,7 @@ boolean success = ollama.delete("llama2-backup");
 
 *Returns* `true` *if the copy process was successfully.*
 
-## 3 Credits
+## 4 Credits
 
 Structure of the readme is inspired from [Ollama Sharp](https://github.com/awaescher/OllamaSharp) and [ollama-rs](https://github.com/pepperoni21/ollama-rs).
 
