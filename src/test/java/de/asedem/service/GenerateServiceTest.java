@@ -53,7 +53,8 @@ class GenerateServiceTest {
                               "prompt_eval_duration": 1160282000,
                               "eval_count": 13,
                               "eval_duration": 1325948000
-                            }"""));
+                            }
+                            """));
 
             final GenerationResponse response = ollama.generate(request);
 
