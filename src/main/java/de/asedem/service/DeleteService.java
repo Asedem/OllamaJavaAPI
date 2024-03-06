@@ -10,9 +10,9 @@ import java.io.IOException;
 
 public interface DeleteService {
 
-    boolean delete(@NotNull String modelName) throws OllamaConnectionException;
+    boolean delete(@NotNull String modelName);
 
-    default boolean delete(@NotNull Ollama ollama, @NotNull String modelName) throws OllamaConnectionException {
+    default boolean delete(@NotNull Ollama ollama, @NotNull String modelName) {
         final int statusCode;
         try {
             statusCode = Rest.requestSync(ollama.buildUrl("/api/delete"),

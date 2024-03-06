@@ -10,9 +10,9 @@ import java.io.IOException;
 
 public interface CopyService {
 
-    boolean copy(@NotNull String source, @NotNull String destination) throws OllamaConnectionException;
+    boolean copy(@NotNull String source, @NotNull String destination);
 
-    default boolean copy(@NotNull Ollama ollama, @NotNull String source, @NotNull String destination) throws OllamaConnectionException {
+    default boolean copy(@NotNull Ollama ollama, @NotNull String source, @NotNull String destination) {
         final int statusCode;
         try {
             statusCode = Rest.requestSync(ollama.buildUrl("/api/copy"),

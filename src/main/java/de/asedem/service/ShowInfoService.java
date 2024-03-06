@@ -12,10 +12,10 @@ import java.io.IOException;
 public interface ShowInfoService {
 
     @NotNull
-    ModelInfo showInfo(@NotNull String modelName) throws OllamaConnectionException;
+    ModelInfo showInfo(@NotNull String modelName);
 
     @NotNull
-    default ModelInfo showInfo(@NotNull Ollama ollama, @NotNull String modelName) throws OllamaConnectionException {
+    default ModelInfo showInfo(@NotNull Ollama ollama, @NotNull String modelName) {
         final ModelInfo modelInfo;
         try {
             modelInfo = Rest.requestSync(ollama.buildUrl("/api/show"), HttpMethode.POST, modelName)

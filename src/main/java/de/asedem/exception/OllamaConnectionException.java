@@ -1,6 +1,6 @@
 package de.asedem.exception;
 
-public class OllamaConnectionException extends Exception {
+public class OllamaConnectionException extends RuntimeException {
 
     private final Exception baseException;
 

@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface ListModelsService {
 
-    List<Model> listModels() throws OllamaConnectionException;
+    List<Model> listModels();
 
     @NotNull
-    default List<Model> listModels(@NotNull Ollama ollama) throws OllamaConnectionException {
+    default List<Model> listModels(@NotNull Ollama ollama) {
         final Models models;
         try {
             models = Rest.requestSync(ollama.buildUrl("/api/tags"), HttpMethode.GET)

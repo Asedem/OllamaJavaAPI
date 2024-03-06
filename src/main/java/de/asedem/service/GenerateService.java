@@ -13,10 +13,10 @@ import java.io.IOException;
 public interface GenerateService {
 
     @NotNull
-    GenerationResponse generate(@NotNull GenerationRequest prompt) throws OllamaConnectionException;
+    GenerationResponse generate(@NotNull GenerationRequest prompt);
 
     @NotNull
-    default GenerationResponse generate(@NotNull Ollama ollama, @NotNull GenerationRequest prompt) throws OllamaConnectionException {
+    default GenerationResponse generate(@NotNull Ollama ollama, @NotNull GenerationRequest prompt) {
         final GenerationResponse response;
         try {
             response = Rest.requestSync(ollama.buildUrl("/api/generate"),

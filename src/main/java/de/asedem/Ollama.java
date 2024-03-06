@@ -37,29 +37,29 @@ public record Ollama(
 
     @NotNull
     @Override
-    public List<Model> listModels() throws OllamaConnectionException {
+    public List<Model> listModels() {
         return ListModelsService.super.listModels(this);
     }
 
     @NotNull
     @Override
-    public GenerationResponse generate(@NotNull GenerationRequest prompt) throws OllamaConnectionException {
+    public GenerationResponse generate(@NotNull GenerationRequest prompt) {
         return GenerateService.super.generate(this, prompt);
     }
 
     @NotNull
     @Override
-    public ModelInfo showInfo(@NotNull String modelName) throws OllamaConnectionException {
+    public ModelInfo showInfo(@NotNull String modelName) {
         return ShowInfoService.super.showInfo(this, modelName);
     }
 
     @Override
-    public boolean copy(@NotNull String source, @NotNull String destination) throws OllamaConnectionException {
+    public boolean copy(@NotNull String source, @NotNull String destination) {
         return CopyService.super.copy(this, source, destination);
     }
 
     @Override
-    public boolean delete(@NotNull String modelName) throws OllamaConnectionException {
+    public boolean delete(@NotNull String modelName) {
         return DeleteService.super.delete(this, modelName);
     }
 }
