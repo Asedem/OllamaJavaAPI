@@ -35,7 +35,7 @@ This API is by far not finished and many features are missing by now...
 <dependency>
     <groupId>com.github.Asedem</groupId>
     <artifactId>OllamaJavaAPI</artifactId>
-    <version>7cac047f12</version>
+    <version>master-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -53,7 +53,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.Asedem:OllamaJavaAPI:7cac047f12'
+    implementation 'com.github.Asedem:OllamaJavaAPI:master-SNAPSHOT'
 }
 ```
 
