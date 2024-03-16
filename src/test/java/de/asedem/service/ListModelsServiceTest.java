@@ -13,8 +13,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ListModelsServiceTest {
 
@@ -29,10 +28,19 @@ class ListModelsServiceTest {
                             {
                               "models": [
                                 {
-                                  "name": "codellama:13b",
-                                  "modified_at": "2023-11-04T14:56:49.277302595-07:00",
-                                  "size": 7365960935,
-                                  "digest": "9f438cb9cd581fc025612d27f7c1a6669ff83a8bb0ed86c94fcf4c5440555697"
+                                  "modified_at": "2023-11-06T17:27:55.025369326+01:00",
+                                  "name": "llama2:latest",
+                                  "model": "llama2:latest",
+                                  "digest": "fe938a131f40e6f6d40083c9f0f430a515233eb2edaa6d72eb85c50d64f2300e",
+                                  "size": 3825819519,
+                                  "details": {
+                                    "parent_model": "",
+                                    "parameter_size": "7B",
+                                    "quantization_level": "Q4_0",
+                                    "format": "gguf",
+                                    "family": "llama",
+                                    "families": null
+                                  }
                                 }
                               ]
                             }
@@ -41,10 +49,18 @@ class ListModelsServiceTest {
             final List<Model> models = ollama.listModels();
 
             assertEquals(1, models.size());
-            assertEquals("codellama:13b", models.getFirst().name());
-            assertEquals("2023-11-04T14:56:49.277302595-07:00", models.getFirst().modifiedAt());
-            assertEquals(7365960935L, models.getFirst().size());
-            assertEquals("9f438cb9cd581fc025612d27f7c1a6669ff83a8bb0ed86c94fcf4c5440555697", models.getFirst().digest());
+            assertEquals("2023-11-06T17:27:55.025369326+01:00", models.getFirst().modifiedAt());
+            assertEquals("llama2:latest", models.getFirst().name());
+            assertEquals("llama2:latest", models.getFirst().model());
+            assertEquals("fe938a131f40e6f6d40083c9f0f430a515233eb2edaa6d72eb85c50d64f2300e", models.getFirst().digest());
+            assertEquals(3825819519L, models.getFirst().size());
+            assertNotNull(models.getFirst().details());
+            assertEquals("", models.getFirst().details().parentModel());
+            assertEquals("7B", models.getFirst().details().parameterSize());
+            assertEquals("Q4_0", models.getFirst().details().quantizationLevel());
+            assertEquals("gguf", models.getFirst().details().format());
+            assertEquals("llama", models.getFirst().details().family());
+            assertNull(models.getFirst().details().families());
         }
     }
 
