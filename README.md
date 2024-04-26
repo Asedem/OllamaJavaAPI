@@ -110,7 +110,7 @@ boolean success = ollama.copy("llama2:latest", "llama2-backup");
 
 *Returns* `true` *if the copy process was successfully.*
 
-### 2.6 Copy a model
+### 2.6 Delete a model
 
 ```java
 boolean success = ollama.delete("llama2-backup");
