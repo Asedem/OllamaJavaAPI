@@ -16,7 +16,7 @@ public interface DeleteService {
         final int statusCode;
         try {
             statusCode = Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.POST, new DeleteRequest(modelName))
+                            HttpMethode.DELETE, new DeleteRequest(modelName))
                     .getStatusCode();
         } catch (IOException exception) {
             throw new OllamaConnectionException(exception);
