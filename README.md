@@ -2,6 +2,8 @@
 
 # OllamaJavaAPI
 
+![Coverage](.github/badges/jacoco.svg)
+
 OllamaJavaAPI is a Java binding for the [Ollama API](https://github.com/jmorganca/ollama/blob/main/docs/api.md), making
 it easy to interact with Ollama using you favourite Java variation.
 
@@ -110,7 +112,7 @@ ModelInfo modelInfo = ollama.showInfo("llama2:latest");
 boolean success = ollama.copy("llama2:latest", "llama2-backup");
 ```
 
-*Returns* `true` *if the copy process was successfully.*
+*Returns* `true` *if the copy process was successful.*
 
 ### 2.6 Delete a model
 
