@@ -1,3 +1,5 @@
+
+
 # OllamaJavaAPI
 
 OllamaJavaAPI is a Java binding for the [Ollama API](https://github.com/jmorganca/ollama/blob/main/docs/api.md), making
@@ -116,7 +118,7 @@ boolean success = ollama.copy("llama2:latest", "llama2-backup");
 boolean success = ollama.delete("llama2-backup");
 ```
 
-*Returns* `true` *if the copy process was successfully.*
+*Returns* `true` *if the deletion was successful.*
 
 ## 4 Credits
 
