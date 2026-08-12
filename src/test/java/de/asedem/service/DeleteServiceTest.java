@@ -22,7 +22,7 @@ class DeleteServiceTest {
 
         try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
             utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.POST, new DeleteService.DeleteRequest("llama2:latest")))
+                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
                     .thenReturn(new RestResponse(200, ""));
 
             assertTrue(ollama.delete("llama2:latest"));
@@ -36,7 +36,7 @@ class DeleteServiceTest {
 
         try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
             utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.POST, new DeleteService.DeleteRequest("llama2:latest")))
+                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
                     .thenReturn(new RestResponse(404, ""));
 
             assertFalse(ollama.delete("llama2:latest"));
@@ -50,7 +50,7 @@ class DeleteServiceTest {
 
         try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
             utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.POST, new DeleteService.DeleteRequest("llama2:latest")))
+                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
                     .thenThrow(new IOException());
 
             assertThrows(OllamaConnectionException.class, () -> ollama.delete("llama2:latest"));

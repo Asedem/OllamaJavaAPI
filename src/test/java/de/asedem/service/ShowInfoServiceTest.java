@@ -3,6 +3,7 @@ package de.asedem.service;
 import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
 import de.asedem.model.ModelInfo;
+import de.asedem.model.ShowInfoRequest;
 import de.asedem.rest.HttpMethode;
 import de.asedem.rest.Rest;
 import de.asedem.rest.RestResponse;
@@ -22,13 +23,15 @@ class ShowInfoServiceTest {
         final Ollama ollama = Ollama.initDefault();
 
         try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/show"), HttpMethode.POST, "llama2:latest"))
+            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/show"),
+                            HttpMethode.POST, new ShowInfoRequest("llama2:latest", false)))
                     .thenReturn(new RestResponse(200, """
                             {
                               "license": "MIT",
                               "modelfile": "# Modelfile",
                               "parameters": "num_ctx 4096",
-                              "template": "{{ .Prompt }}"
+                              "template": "{{ .Prompt }}",
+                              "capabilities": ["completion", "vision"]
                             }
                             """));
 
@@ -38,6 +41,7 @@ class ShowInfoServiceTest {
             assertEquals("# Modelfile", modelInfo.modelFile());
             assertEquals("num_ctx 4096", modelInfo.parameters());
             assertEquals("{{ .Prompt }}", modelInfo.template());
+            assertEquals(2, modelInfo.capabilities().size());
         }
     }
 
@@ -47,7 +51,8 @@ class ShowInfoServiceTest {
         final Ollama ollama = Ollama.initDefault();
 
         try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/show"), HttpMethode.POST, "llama2:latest"))
+            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/show"),
+                            HttpMethode.POST, new ShowInfoRequest("llama2:latest", false)))
                     .thenThrow(new IOException());
 
             assertThrows(OllamaConnectionException.class, () -> ollama.showInfo("llama2:latest"));
