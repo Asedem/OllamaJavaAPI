@@ -1,57 +1,47 @@
 package de.asedem.service;
 
+import de.asedem.HttpTestServer;
 import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
-import de.asedem.rest.HttpMethode;
-import de.asedem.rest.Rest;
-import de.asedem.rest.RestResponse;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeleteServiceTest {
 
     @Test
-    void testMethodCall() {
+    void testMethodCall() throws Exception {
+        try (HttpTestServer server = new HttpTestServer()) {
+            server.setResponse(200, "");
 
-        final Ollama ollama = Ollama.initDefault();
-
-        try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
-                    .thenReturn(new RestResponse(200, ""));
+            final Ollama ollama = Ollama.init("http://127.0.0.1", server.getPort());
 
             assertTrue(ollama.delete("llama2:latest"));
+
+            assertEquals("DELETE", server.getLastMethod());
+            assertEquals("/api/delete", server.getLastPath());
+            assertTrue(server.getLastBody().contains("\"name\":\"llama2:latest\""));
         }
     }
 
     @Test
-    void testFalseIfNotSuccessful() {
+    void testFalseIfNotSuccessful() throws Exception {
+        try (HttpTestServer server = new HttpTestServer()) {
+            server.setResponse(404, "");
 
-        final Ollama ollama = Ollama.initDefault();
-
-        try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
-                    .thenReturn(new RestResponse(404, ""));
+            final Ollama ollama = Ollama.init("http://127.0.0.1", server.getPort());
 
             assertFalse(ollama.delete("llama2:latest"));
         }
     }
 
     @Test
-    void testException() {
+    void testExceptionOnConnectionFailure() throws Exception {
+        try (HttpTestServer server = new HttpTestServer()) {
+            final int port = server.getPort();
+            server.close();
 
-        final Ollama ollama = Ollama.initDefault();
-
-        try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/delete"),
-                            HttpMethode.DELETE, new DeleteService.DeleteRequest("llama2:latest")))
-                    .thenThrow(new IOException());
+            final Ollama ollama = Ollama.init("http://127.0.0.1", port);
 
             assertThrows(OllamaConnectionException.class, () -> ollama.delete("llama2:latest"));
         }

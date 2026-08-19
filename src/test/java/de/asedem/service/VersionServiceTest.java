@@ -1,48 +1,42 @@
 package de.asedem.service;
 
+import de.asedem.HttpTestServer;
 import de.asedem.Ollama;
 import de.asedem.exception.OllamaConnectionException;
 import de.asedem.model.VersionResponse;
-import de.asedem.rest.HttpMethode;
-import de.asedem.rest.Rest;
-import de.asedem.rest.RestResponse;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class VersionServiceTest {
 
     @Test
-    void testMethodCall() {
+    void testMethodCall() throws Exception {
+        try (HttpTestServer server = new HttpTestServer()) {
+            server.setResponse(200, """
+                    {
+                      "version": "0.5.1"
+                    }
+                    """);
 
-        final Ollama ollama = Ollama.initDefault();
-
-        try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/version"), HttpMethode.GET))
-                    .thenReturn(new RestResponse(200, """
-                            {
-                              "version": "0.5.1"
-                            }
-                            """));
-
+            final Ollama ollama = Ollama.init("http://127.0.0.1", server.getPort());
             final VersionResponse response = ollama.version();
 
             assertEquals("0.5.1", response.version());
+
+            assertEquals("GET", server.getLastMethod());
+            assertEquals("/api/version", server.getLastPath());
+            assertNull(server.getLastBody());
         }
     }
 
     @Test
-    void testException() {
+    void testExceptionOnConnectionFailure() throws Exception {
+        try (HttpTestServer server = new HttpTestServer()) {
+            final int port = server.getPort();
+            server.close();
 
-        final Ollama ollama = Ollama.initDefault();
-
-        try (MockedStatic<Rest> utilities = Mockito.mockStatic(Rest.class)) {
-            utilities.when(() -> Rest.requestSync(ollama.buildUrl("/api/version"), HttpMethode.GET))
-                    .thenThrow(new IOException());
+            final Ollama ollama = Ollama.init("http://127.0.0.1", port);
 
             assertThrows(OllamaConnectionException.class, ollama::version);
         }
